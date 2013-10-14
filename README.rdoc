@@ -1,28 +1,38 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+#Authentication is a very important task on every application (Mobile, web, etc), Ruby has a gem called devise, which makes all the authentication process pretty easier. 
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+#Requirements
+#- Ruby 2.0.0
+#- Rails 4.0.0
+
+
+#I followed this steps to build the application from the scratch
+
+#Open your console and type to create the application:
+Rails new deviseauth
+
+#Then in order to install devise we should add it to the gemfile, so open up your gemfile and add the following line:
+gem 'devise' , '3.0.0'
+
+#To wrap it and get all the gems working good, type:
+bundle install
+
+#Then generate de User model
+rails generate devise User
+
+#On route we need to specify the index page or main page, so we can add this line in routes.rb
+root 'welcome#index'
+
+#Then the view, because it's a requirement for devise
+rails generate controller welcome index
+
+#Do the migration
+rake db:migrate
+
+#Information regarding to routes
+rake routes
+
+#The we just run the server
+rails server
