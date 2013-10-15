@@ -36,3 +36,56 @@ rake routes
 
 #The we just run the server
 rails server
+
+#To generate the devise views
+rails generate devise:views
+
+
+##Part 2##
+
+#In order to modify the original behaivor of devise, for example, chance the user registration form, adding more fields like username, age, etc, we need to create a new controller:
+rails generate controller registrations
+
+Then we go inside the controllers folder and edit the registrations_controller file, and make this particular changes, first of all we need to chance the heritage to Devise::RegistrationsController instead of ApplicationController
+
+After we edited the file, it ends up like this:
+
+class RegistrationsController < Devise::RegistrationsController
+	def new
+		super
+	end
+
+	def create
+		super
+	end
+
+	def update
+		super
+	end
+	
+end
+
+Then we need to tell devise we change the controller, we do this on routes.rb, just above the first line if we want:
+devise_for :users, controllers: { registrations: 'registrations' }
+
+Next we add a new column to the database 
+rails generate migration AddColumnsToUser username:string
+rake db:migrate
+
+After the generation of the new field, we need to setup our application_controller.rb
+class ApplicationController < ActionController::Base
+  # Prevent CSRF attacks by raising an exception.
+  # For APIs, you may want to use :null_session instead.
+  
+  before_action :configure_permitted_parameters, if: :devise_controller?
+  protect_from_forgery with: :exception
+  
+
+	protected
+
+	def configure_permitted_parameters
+		devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:username,:email, :password, :password_confirmation) }
+	end
+
+end
+
