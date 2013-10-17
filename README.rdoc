@@ -19,6 +19,8 @@ gem 'devise' , '3.0.0'
 #To wrap it and get all the gems working good, type:
 bundle install
 
+rails g devise:install
+
 #Then generate de User model
 rails generate devise User
 
